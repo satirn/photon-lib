@@ -189,7 +189,8 @@ export class AbstractHDElectrumWallet extends AbstractHDWallet {
     // first, getting xpub
     const mnemonic = this.secret;
     const seed = bip39.mnemonicToSeed(mnemonic);
-    const root = HDNode.fromSeed(seed);
+    const network = bitcoin.networks[this.network];
+    const root = HDNode.fromSeed(seed, network);
 
     const path = "m/84'/0'/0'";
     const child = root.derivePath(path).neutered();

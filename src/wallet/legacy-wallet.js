@@ -396,7 +396,7 @@ export class LegacyWallet extends AbstractWallet {
     try {
       ret = bitcoin.payments.p2pkh({
         output: scriptPubKey2,
-        network: bitcoin.networks.bitcoin,
+        network: this.network,
       }).address;
     } catch (_) {
       return false;

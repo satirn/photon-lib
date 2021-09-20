@@ -29,7 +29,7 @@ export class SegwitBech32Wallet extends LegacyWallet {
     const pubKey = Buffer.from(witness, 'hex');
     return bitcoin.payments.p2wpkh({
       pubkey: pubKey,
-      network: bitcoin.networks.bitcoin,
+      network: this.network,
     }).address;
   }
 
@@ -45,7 +45,7 @@ export class SegwitBech32Wallet extends LegacyWallet {
     try {
       ret = bitcoin.payments.p2wpkh({
         output: scriptPubKey2,
-        network: bitcoin.networks.bitcoin,
+        network: this.network,
       }).address;
     } catch (_) {
       return false;

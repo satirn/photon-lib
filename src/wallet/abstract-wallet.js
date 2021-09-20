@@ -33,6 +33,13 @@ export class AbstractWallet {
     this.userHasSavedExport = false;
     this._hideTransactionsInWalletsList = false;
     this._utxoMetadata = {};
+    this.network = 'bitcoin';
+  }
+
+  // testnet | bitcoin
+  setNetwork(network) {
+    this.network = network;
+    return this;
   }
 
   getID() {
