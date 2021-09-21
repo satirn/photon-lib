@@ -223,6 +223,17 @@ export class AbstractHDWallet extends LegacyWallet {
     throw new Error('Could not find WIF for ' + address);
   }
 
+  /**
+   * Get free address and dump associated privkey
+   *
+   * @return {String} WIF if found
+   */
+  async dumpNewWif() {
+    const wif = this._getWifForAddress(await this.getAddressAsync());
+
+    return wif;
+  }
+
   async fetchBalance() {
     throw new Error('Not implemented');
   }
