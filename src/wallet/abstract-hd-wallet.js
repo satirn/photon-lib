@@ -234,6 +234,17 @@ export class AbstractHDWallet extends LegacyWallet {
     return wif;
   }
 
+  /**
+   * Get WIF for associated address - expose method for dlc functionality (DANGEROUS)
+   *
+   * @return {String} WIF if found
+   */
+  async getWifForAddress(address) {
+    const wif = this._getWifForAddress(address);
+
+    return wif;
+  }
+
   async fetchBalance() {
     throw new Error('Not implemented');
   }
