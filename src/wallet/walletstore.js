@@ -214,7 +214,6 @@ export class WalletStore {
       }
       return txs;
     }
-
     let txs = [];
     for (const wallet of this.wallets) {
       const walletTransactions = wallet.getTransactions();
@@ -223,17 +222,52 @@ export class WalletStore {
       }
       txs = txs.concat(walletTransactions);
     }
-
     for (const t of txs) {
       t.sort_ts = +new Date(t.received);
     }
-
     return txs
       .sort(function (a, b) {
         return b.sort_ts - a.sort_ts;
       })
       .slice(0, limit);
   }
+
+    /**
+   * Getter for all utxos in all wallets.
+   * But if index is provided - only for wallet with corresponding index
+   *
+   * @param index {Integer|null} Wallet index in this.wallets. Empty (or null) for all wallets.
+   * @param limit {Integer} How many utxos return, starting from the earliest. Default: all of them.
+   * @return {Array}
+   */
+     getUtxos(index, limit = Infinity) {
+      if (index || index === 0) {
+        let utxos = [];
+        let c = 0;
+        for (const wallet of this.wallets) {
+          if (c++ === index) {
+            utxos = utxos.concat(wallet.getUtxo());
+          }
+        }
+        return utxos;
+      }
+      let utxos = [];
+      for (const wallet of this.wallets) {
+        const walletUtxos = wallet.getUtxo();
+        for (const t of walletUtxos) {
+          t.walletPreferredBalanceUnit = wallet.getPreferredBalanceUnit();
+        }
+        utxos = utxos.concat(walletUtxos);
+      }
+      for (const t of utxos) {
+        t.sort_ts = t.height;
+      }
+      return utxos
+        .sort(function (a, b) {
+          return b.sort_ts - a.sort_ts;
+        })
+        .slice(0, limit);
+    }
 
   /**
    * Getter for a sum of all balances of all wallets
